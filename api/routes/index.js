@@ -11,10 +11,29 @@ fs.readdir("../web/pugs", function (err, files) {
 });
 
 /* GET home page. */
-router.get('/random', function(req, res) {
+router.get('/random', function (req, res) {
     var idx = Math.floor(Math.random() * list.length);
     res.json({
-        img: list[idx]
+        img: list[idx],
+        id: idx,
+        length: list.length
+    });
+});
+router.get('/:id', function (req, res) {
+    var id = 0;
+    if (req.params.id) {
+        id = req.params.id;
+        if (req.params.id >= list.length) {
+            id = list.length - 1;
+        }
+        if (req.params.id < 0) {
+            id = 0;
+        }
+    }
+    res.json({
+        img: list[id],
+        id: parseInt(id),
+        length: list.length
     });
 });
 

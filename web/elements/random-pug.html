@@ -1,6 +1,7 @@
 <link rel="import" href="../vendor/paper-button/paper-button.html">
 <link rel="import" href="../vendor/core-ajax/core-ajax.html">
-<polymer-element name="random-pug">
+<link rel="import" href="../elements/pug-pagination.html">
+<polymer-element name="random-pug" attributes="url">
     <template>
         <style>
             :host, :host>#img {
@@ -19,14 +20,22 @@
                 right: 8px;
             }
         </style>
-        <core-ajax auto
+        <core-ajax
                     id="ajax"
                     method="GET"
-                    url="http://localhost:3000/random"
+                    url="{{url}}/random"
                     handleas="json"
                     on-core-response="{{onResponse}}"
         ></core-ajax>
-        <div id="img" style="background: url('pugs/{{res.img}}')" on-click="{{reload}}">
+        <core-ajax auto
+                    id="loadAjax"
+                    method="GET"
+                    url="{{url}}/{{toLoad}}"
+                    handleas="json"
+                    on-core-response="{{onResponse}}"
+        ></core-ajax>
+        <div id="img" style="background: url('pugs/{{res.img}}')">
+            <pug-pagination id="pagination" current="{{res.id}}" length="{{res.length}}"></pug-pagination>
             <a href="pugs/{{res.img}}" target="_blank" download>
                 <paper-button id="dl-button" icon="file-download" raisedButton></paper-button>
             </a>
@@ -35,11 +44,26 @@
     </template>
     <script>
         Polymer('random-pug', {
+            url: "http://188.226.156.217",
+            toLoad : 0,
+            ready: function () {
+                (function (_this) {
+                    _this.$.pagination.addEventListener("load", function (e) {
+                        _this.load(e.detail.id);
+                    });
+                })(this);
+
+            },
             onResponse: function (e) {
                 this.res = e.detail.response;
+                console.log(e.detail.response);
             },
             reload: function (e) {
                 this.$.ajax.go();
+            },
+            load: function (id) {
+                this.toLoad = id;
+                this.$.loadAjax.go();
             }
         });
     </script>

@@ -1,0 +1,46 @@
+<link rel="import" href="../vendor/core-icons/core-icons.html">
+<link rel="import" href="../vendor/paper-button/paper-button.html">
+<polymer-element name="pug-pagination" attributes="current length">
+    <template>
+        <style>
+            :host {
+                position: relative;
+                width: 100%;
+            }
+            :host paper-button {
+                top: 8px;
+            }
+            :host paper-button#prev {
+                position: absolute;
+                left: 8px;
+            }
+            :host paper-button#next {
+                position: absolute;
+                right: 8px;
+            }
+        </style>
+        <div>
+            <template if="{{current !== 0}}">
+                <paper-button id="prev" raisedButton icon="arrow-back" on-click="{{prev}}"></paper-button>
+            </template>
+            <template if="{{current < length - 1}}">
+                <paper-button id="next"raisedButton icon="arrow-forward" on-click="{{next}}"></paper-button>
+            </template>
+        </div>
+    </template>
+    <script>
+        Polymer('pug-pagination', {
+            current: 0,
+            length: 0,
+            ready: function () {
+
+            },
+            prev: function () {
+                this.fire('load', {id: parseInt(this.current) - 1});
+            },
+            next: function () {
+                this.fire('load', {id: parseInt(this.current) + 1});
+            }
+        });
+    </script>
+</polymer-element>

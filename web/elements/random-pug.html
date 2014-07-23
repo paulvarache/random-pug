@@ -1,0 +1,46 @@
+<link rel="import" href="../vendor/paper-button/paper-button.html">
+<link rel="import" href="../vendor/core-ajax/core-ajax.html">
+<polymer-element name="random-pug">
+    <template>
+        <style>
+            :host, :host>#img {
+                position: relative;
+                width: 100%;
+                height: 90%;
+            }
+            :host>#img {
+                background-size: auto 100% !important;
+                background-repeat: no-repeat !important;
+                background-position: center !important;
+            }
+            #dl-button {
+                position: absolute;
+                bottom: 8px;
+                right: 8px;
+            }
+        </style>
+        <core-ajax auto
+                    id="ajax"
+                    method="GET"
+                    url="http://localhost:3000/random"
+                    handleas="json"
+                    on-core-response="{{onResponse}}"
+        ></core-ajax>
+        <div id="img" style="background: url('pugs/{{res.img}}')" on-click="{{reload}}">
+            <a href="pugs/{{res.img}}" target="_blank" download>
+                <paper-button id="dl-button" icon="file-download" raisedButton></paper-button>
+            </a>
+        </div>
+
+    </template>
+    <script>
+        Polymer('random-pug', {
+            onResponse: function (e) {
+                this.res = e.detail.response;
+            },
+            reload: function (e) {
+                this.$.ajax.go();
+            }
+        });
+    </script>
+</polymer-element>

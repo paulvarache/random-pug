@@ -1,0 +1,7 @@
+*.log
+*.gif
+*.jpg
+*.jpeg
+*.png
+api/node_modules/*
+web/vendor/*

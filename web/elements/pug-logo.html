@@ -1,0 +1,30 @@
+<link rel="import" href="../vendor/core-icons/core-icons.html">
+<polymer-element name="pug-logo" noscript>
+    <template>
+        <style>
+            :host {
+                display: block;
+                width: 100%;
+                text-align: center;
+            }
+            :host #icon {
+                display: inline;
+                background-color: white;
+                padding: 7px;
+                border-radius: 50%;
+                -webkit-transition: padding 150ms ease;
+                transition: padding 150ms ease;
+            }
+            :host #icon:hover {
+                padding: 12px;
+                cursor: pointer;
+            }
+        </style>
+        <div id="icon">
+            <core-icon src="../images/logo.png"></core-icon>
+        </div>
+    </template>
+    <script>
+        Polymer('pug-logo');
+    </script>
+</polymer-element>
